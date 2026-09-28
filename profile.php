@@ -22,14 +22,14 @@ if (!$user) {
     exit();
 }
 
-// รูปภาพอวตารให้เลือก
+// อาเรย์เก็บเส้นทางรูปภาพโปรไฟล์ในโฟลเดอร์ pic
 $avatars = [
-    "https://api.dicebear.com/7.x/adventurer/svg?seed=Felix",
-    "https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka",
-    "https://api.dicebear.com/7.x/adventurer/svg?seed=Mimi",
-    "https://api.dicebear.com/7.x/adventurer/svg?seed=Oreo",
-    "https://api.dicebear.com/7.x/adventurer/svg?seed=Jack",
-    "https://api.dicebear.com/7.x/adventurer/svg?seed=Princess"
+    "pic/pro6.jpg",
+    "pic/pro2.jpg",
+    "pic/pro3.jpg",
+    "pic/pro4.jpg",
+    "pic/pro5.jpg",
+    "pic/pro7.jpg"
 ];
 ?>
 
@@ -47,10 +47,14 @@ $avatars = [
             width: 80px; height: 80px; border-radius: 50%;
             cursor: pointer; border: 3px solid transparent;
             transition: 0.3s; background-color: #f8f9fa;
+            object-fit: cover; /* เพิ่มคำสั่งนี้ให้รูปไม่เบี้ยว */
         }
         .avatar-label img:hover { border-color: #0dcaf0; }
         .avatar-label input[type="radio"]:checked + img {
             border-color: #198754; background-color: #e9ecef; transform: scale(1.1);
+        }
+        .main-profile-img {
+            object-fit: cover; /* เพิ่มคำสั่งนี้ให้รูประดับหลักไม่เบี้ยว */
         }
     </style>
 </head>
@@ -71,14 +75,16 @@ $avatars = [
                 <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
                     <h4 class="fw-bold mb-4 text-success">โปรไฟล์ของฉัน</h4>
                     
-                    <img src="<?php echo htmlspecialchars($user['profile_pic'] ?? 'https://api.dicebear.com/7.x/adventurer/svg?seed=default'); ?>" alt="Profile" class="rounded-circle mb-3 border border-3 border-success bg-light" width="120" height="120">
+                    <!-- ⭐️ เติม d-block mx-auto ตรงคลาสของรูปนี้ เพื่อจัดกึ่งกลาง -->
+                    <img src="<?php echo htmlspecialchars($user['profile_pic'] ?? 'pic/pro1.jpg'); ?>" alt="Profile" class="rounded-circle mb-3 border border-3 border-success bg-light main-profile-img d-block mx-auto" width="120" height="120">
+                    
                     <h5 class="fw-bold"><?php echo htmlspecialchars($user['name']); ?></h5>
                     <p class="text-muted mb-4"><?php echo htmlspecialchars($user['email']); ?></p>
 
                     <hr>
 
                     <form action="update_profile.php" method="POST">
-                        <h6 class="fw-bold mb-3 text-secondary">เลือกรูปโปรไฟล์ใหม่:</h6>
+                        <h6 class="fw-bold mb-3 text-secondary">เลือกรูปโปรไฟล์ : </h6>
                         <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
                             <?php foreach ($avatars as $avatar): ?>
                                 <label class="avatar-label">
@@ -97,5 +103,19 @@ $avatars = [
             </div>
         </div>
     </div>
+
+    <!-- สคริปต์สำหรับเปลี่ยนรูปด้านบนทันทีที่คลิกเลือก (Live Preview) -->
+    <script>
+        const avatarOptions = document.querySelectorAll('input[name="profile_pic"]');
+        const mainProfileImg = document.querySelector('.main-profile-img');
+
+        avatarOptions.forEach(option => {
+            option.addEventListener('change', function() {
+                if(this.checked) {
+                    mainProfileImg.src = this.value; 
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -49,7 +49,7 @@ if (isset($_SESSION['user_id'])) {
                         <div class="tab-pane fade" id="pills-register" role="tabpanel">
                             <form action="register_action.php" method="POST">
                                 <div class="mb-2 text-start">
-                                    <label class="form-label text-white-50 small">ชื่อ - นามสกุล (หรือชื่อเล่น)</label>
+                                    <label class="form-label text-white-50 small">ชื่อเล่น</label>
                                     <input type="text" class="form-control" name="name" placeholder="กรอกชื่อของคุณ" required>
                                 </div>
                                 <div class="mb-3 text-start">
