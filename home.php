@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $current_user_id = $_SESSION['user_id'];
 
-// ดึงชื่อผู้ใช้จากฐานข้อมูลเพื่อความชัวร์ (ป้องกัน Error ระบุตัวแปร Session ไม่เจอ)
+// ดึงชื่อผู้ใช้จากฐานข้อมูลเพื่อความชัวร์
 $user_stmt = $conn->prepare("SELECT name FROM users WHERE user_id = :user_id");
 $user_stmt->execute([':user_id' => $current_user_id]);
 $user_data = $user_stmt->fetch(PDO::FETCH_ASSOC);
@@ -19,9 +19,9 @@ $user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 
 if ($category_filter == 'study' || $category_filter == 'roommate') {
-    // ดึงเฉพาะหมวดหมู่ที่เลือก
+    // เพิ่มการดึง profile_pic มาด้วย
     $stmt = $conn->prepare("
-        SELECT posts.*, users.name as poster_name 
+        SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.user_id 
         WHERE posts.category = :category
@@ -29,9 +29,9 @@ if ($category_filter == 'study' || $category_filter == 'roommate') {
     ");
     $stmt->execute([':category' => $category_filter]);
 } else {
-    // ดึงโพสต์ทั้งหมด (ค่าเริ่มต้น)
+    // เพิ่มการดึง profile_pic มาด้วย
     $stmt = $conn->prepare("
-        SELECT posts.*, users.name as poster_name 
+        SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.user_id 
         ORDER BY posts.created_at DESC
@@ -49,8 +49,6 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>หน้าหลัก - MateTiww</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- เชื่อมไฟล์ CSS พร้อมเทคนิคตัดแคช -->
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
 <body>
@@ -59,15 +57,18 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold text-info" href="home.php">MateTiww</a>
+            
             <div class="d-flex align-items-center">
-                <span class="me-3 fw-medium text-light">สวัสดี, คุณ <?php echo htmlspecialchars($user_name); ?></span>
-                <a href="logout.php" class="btn btn-outline-danger btn-sm rounded-pill px-3">ออกจากระบบ</a>
+                <!-- เหลือแค่ลิงก์ไปหน้าโปรไฟล์ เอาปุ่มออกจากระบบออกแล้ว -->
+                <a href="profile.php" class="text-white text-decoration-none fw-medium">
+                    ⚙️ ตั้งค่าโปรไฟล์ (คุณ <?php echo htmlspecialchars($user_name); ?>)
+                </a>
             </div>
         </div>
     </nav>
 
     <!-- Main Container -->
-    <div class="container mt-4 pt-5"> <!-- เพิ่ม pt-5 ดันเนื้อหาลงมาไม่ให้โดน Navbar บัง -->
+    <div class="container mt-4 pt-5">
         <div class="row justify-content-center">
             
             <!-- ฟอร์มสร้างประกาศใหม่ -->
@@ -87,7 +88,6 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="text" class="form-control" name="title" placeholder="หัวข้อประกาศ" required>
                             </div>
                             <div class="mb-3">
-                                <!-- เปลี่ยน name="detail" กลับเป็น name="content" -->
                                 <textarea class="form-control" name="content" rows="2" placeholder="รายละเอียดเพิ่มเติม" required></textarea>
                             </div>
                             <div class="text-end">
@@ -100,8 +100,6 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <!-- ฟีดโพสต์ล่าสุด -->
             <div class="col-md-8">
-                
-                <!-- ส่วนหัวของฟีด และ ปุ่มกรองหมวดหมู่ -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold mb-0 text-white">โพสต์ล่าสุด</h5>
                     <div class="btn-group shadow-sm">
@@ -116,9 +114,13 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="card glass-card p-3 mb-3">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <div>
-                                        <span class="fw-bold text-info"><?php echo htmlspecialchars($post['poster_name'] ?? 'ไม่ทราบชื่อ'); ?></span>
-                                        <small class="text-white-50 ms-2"><?php echo $post['created_at']; ?></small>
+                                    <div class="d-flex align-items-center">
+                                        <!-- เพิ่มรูปภาพโปรไฟล์วงกลมตรงนี้ -->
+                                        <img src="<?php echo htmlspecialchars($post['poster_pic'] ?? 'https://api.dicebear.com/7.x/adventurer/svg?seed=default'); ?>" class="rounded-circle me-2 bg-light" width="35" height="35" alt="Avatar">
+                                        <div>
+                                            <span class="fw-bold text-info d-block" style="line-height: 1.2;"><?php echo htmlspecialchars($post['poster_name'] ?? 'ไม่ทราบชื่อ'); ?></span>
+                                            <small class="text-white-50"><?php echo $post['created_at']; ?></small>
+                                        </div>
                                     </div>
                                     <div>
                                         <?php if($post['category'] == 'study'): ?>
@@ -127,13 +129,10 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <span class="badge badge-roommate rounded-pill px-3 py-2">หารูมเมท</span>
                                         <?php endif; ?>
                                         
-                                        <!-- ปุ่มลบโพสต์ (แสดงเฉพาะเจ้าของโพสต์) -->
                                         <?php if($post['user_id'] == $_SESSION['user_id']): ?>
                                             <a href="delete_post.php?post_id=<?php echo $post['post_id']; ?>" 
                                                class="btn btn-sm btn-outline-danger rounded-pill ms-2"
-                                               onclick="return confirm('คุณแน่ใจหรือไม่ว่าต้องการลบประกาศนี้?');">
-                                               ลบ
-                                            </a>
+                                               onclick="return confirm('คุณแน่ใจหรือไม่ว่าต้องการลบประกาศนี้?');">ลบ</a>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -147,8 +146,9 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="mb-3">
                                     <h6 class="fw-bold fs-6 mb-2 text-white-50">ความคิดเห็น:</h6>
                                     <?php 
+                                    // เพิ่มดึงรูป profile_pic ของคนคอมเมนต์มาด้วย
                                     $comment_stmt = $conn->prepare("
-                                        SELECT comments.*, users.name as commenter_name 
+                                        SELECT comments.*, users.name as commenter_name, users.profile_pic as commenter_pic 
                                         FROM comments 
                                         LEFT JOIN users ON comments.user_id = users.user_id 
                                         WHERE comments.post_id = :post_id 
@@ -160,9 +160,13 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     if (count($comments) > 0): 
                                         foreach ($comments as $comment): 
                                     ?>
-                                        <div class="comment-box">
-                                            <span class="fw-bold text-info" style="font-size: 0.9rem;"><?php echo htmlspecialchars($comment['commenter_name'] ?? 'ไม่ทราบชื่อ'); ?>:</span>
-                                            <span class="text-light" style="font-size: 0.9rem;"><?php echo htmlspecialchars($comment['content']); ?></span>
+                                        <div class="comment-box d-flex align-items-start mb-2">
+                                            <!-- รูปโปรไฟล์วงกลมของคนคอมเมนต์ -->
+                                            <img src="<?php echo htmlspecialchars($comment['commenter_pic'] ?? 'https://api.dicebear.com/7.x/adventurer/svg?seed=default'); ?>" class="rounded-circle me-2 mt-1 bg-light" width="25" height="25" alt="Avatar">
+                                            <div>
+                                                <span class="fw-bold text-info" style="font-size: 0.9rem;"><?php echo htmlspecialchars($comment['commenter_name'] ?? 'ไม่ทราบชื่อ'); ?>:</span>
+                                                <span class="text-light" style="font-size: 0.9rem;"><?php echo htmlspecialchars($comment['content']); ?></span>
+                                            </div>
                                         </div>
                                     <?php 
                                         endforeach; 
@@ -193,6 +197,5 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
-
 </body>
 </html>

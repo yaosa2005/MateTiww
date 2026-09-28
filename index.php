@@ -17,7 +17,6 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
 <body class="login-page"> 
-
     <div class="login-wrapper">
         <div class="login-container">
             <div class="card glass-form p-4 shadow-lg text-white">
@@ -25,7 +24,6 @@ if (isset($_SESSION['user_id'])) {
                     <h2 class="fw-bold mb-2 text-info">MateTiww</h2>
                     <p class="text-white-50 mb-4" style="font-size: 0.9rem;">ระบบหาเพื่อนติวและหารูมเมท</p>
                     
-                    <!-- ฟอร์มสลับแท็บ (เข้าสู่ระบบ / สมัครสมาชิก) -->
                     <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active btn-sm text-white" id="pills-login-tab" data-bs-toggle="pill" data-bs-target="#pills-login" type="button" role="tab">เข้าสู่ระบบ</button>
@@ -36,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <!-- แท็บเข้าสู่ระบบ -->
+                        <!-- แท็บเข้าสู่ระบบ (เอาแค่ email) -->
                         <div class="tab-pane fade show active" id="pills-login" role="tabpanel">
                             <form action="login_action.php" method="POST">
                                 <div class="mb-3 text-start">
@@ -47,7 +45,7 @@ if (isset($_SESSION['user_id'])) {
                             </form>
                         </div>
 
-                        <!-- แท็บสมัครสมาชิก -->
+                        <!-- แท็บสมัครสมาชิก (เอาแค่ชื่อกับ email) -->
                         <div class="tab-pane fade" id="pills-register" role="tabpanel">
                             <form action="register_action.php" method="POST">
                                 <div class="mb-2 text-start">
@@ -62,13 +60,10 @@ if (isset($_SESSION['user_id'])) {
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap JS (จำเป็นสำหรับการกดสลับแท็บ Login / Register) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
