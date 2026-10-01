@@ -40,7 +40,7 @@ body.login-page {
     z-index: 1; 
 }
 
-/* ดึงรูปหนังสือเวทมนตร์มาเป็นพื้นหลัง */
+/* ดึงรูปหนังสือเวทมนตร์มาเป็นพื้นหลัง (สำหรับคอมพิวเตอร์) */
 body.login-page::before {
     content: "";
     position: fixed;
@@ -50,11 +50,19 @@ body.login-page::before {
     height: 100vh;
     background-image: url('vedio/Magic Crystal Book.svg'); 
     background-repeat: no-repeat;
-    background-position: center; 
-    background-size: 65%; /* ปรับให้พอดีกับภาพตัวอย่าง */
+    background-position: center 75%; 
+    background-size: 65%; /* ปรับให้พอดีกับภาพตัวอย่างในคอม */
     z-index: -1; 
     opacity: 0.95; 
     pointer-events: none;
+}
+
+/* 📱 ปรับแต่งรูปหนังสือและพื้นหลังเฉพาะหน้าจอโทรศัพท์มือถือ */
+@media (max-width: 768px) {
+    body.login-page::before {
+        background-size: 95%; /* ขยายรูปหนังสือให้พอดีกับจอแคบๆ ของมือถือ */
+        background-position: center 82%; /* ดึงตำแหน่งหนังสือให้อยู่ในจุดที่สวยงาม ไม่โดนกล่องบัง */
+    }
 }
 
 .login-wrapper {
@@ -116,7 +124,6 @@ body.login-page::before {
 
 /* ---- สำหรับหน้า Login ---- */
 body.login-page .glass-card, body.login-page .glass-form {
-    /* ปรับกระจกให้โปร่งแสงเข้ากับพื้นหลังสีม่วงตามในรูป */
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
@@ -145,7 +152,7 @@ body.login-page .glass-card:hover {
 /* ---- สำหรับหน้าพื้นขาว ---- */
 .form-control, .form-select {
     background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(107, 59, 128, 0.3) !important; /* กรอบช่องกรอกข้อมูลสีม่วง */
+    border: 1px solid rgba(107, 59, 128, 0.3) !important; 
     color: #6B3B80 !important;
     border-radius: 12px;
     transition: all 0.3s ease;
@@ -154,7 +161,7 @@ body.login-page .glass-card:hover {
 .form-control:focus, .form-select:focus {
     background: #ffffff !important;
     border-color: #B070CA !important;
-    box-shadow: 0 0 12px rgba(176, 112, 202, 0.3) !important; /* เงาตอนกดพิมพ์เป็นสีม่วง */
+    box-shadow: 0 0 12px rgba(176, 112, 202, 0.3) !important; 
     transform: scale(1.01);
 }
 .form-select option { background-color: #ffffff; color: #6B3B80; }
@@ -217,6 +224,7 @@ body.login-page .text-info { color: #F0E5D1 !important; text-shadow: 0 0 5px rgb
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
 .badge-roommate {
     background: linear-gradient(135deg, #953186, #eb7ce1);
     box-shadow: 0 2px 10px rgba(149, 49, 134, 0.3);
