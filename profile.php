@@ -22,7 +22,6 @@ if (!$user) {
     exit();
 }
 
-// อาเรย์เก็บเส้นทางรูปภาพโปรไฟล์ในโฟลเดอร์ pic
 $avatars = [
     "pic/pro6.jpg",
     "pic/pro2.jpg",
@@ -54,7 +53,7 @@ $avatars = [
             border-color: #198754; background-color: #e9ecef; transform: scale(1.1);
         }
         .main-profile-img {
-            object-fit: cover; /* เพิ่มคำสั่งนี้ให้รูประดับหลักไม่เบี้ยว */
+            object-fit: cover; 
         }
     </style>
 </head>

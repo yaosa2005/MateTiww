@@ -1,15 +1,9 @@
-/* =========================================
-   1. อนิเมชันพื้นหลัง (สำหรับหน้า Login)
-========================================= */
 @keyframes gradientMove {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* =========================================
-   2. ตั้งค่าพื้นฐาน (หน้าทั่วไป เช่น home.php)
-========================================= */
 body {
     background: #F9FDF9; /* สีขาวอมเขียว สบายตา */
     min-height: 100vh;
@@ -19,7 +13,6 @@ body {
     margin: 0;
 }
 
-/* ดักจับข้อความสีสว่างทุกชนิด ที่อยู่ในการ์ดและฟอร์ม ให้เป็นสีเขียวเข้ม */
 .glass-card .text-white, 
 .glass-card .text-light, 
 .glass-card .text-white-50,
@@ -29,14 +22,11 @@ body {
     color: #3A5A3C !important;
 }
 
-/* แก้ปัญหาคำว่า "โพสต์ล่าสุด" ที่อยู่ข้างนอกการ์ดให้กลายเป็นสีเขียวเข้ม */
 body:not(.login-page) h5.text-white {
     color: #3A5A3C !important;
 }
 
-/* =========================================
-   3. หน้า Login (ต้องใส่ class="login-page" ในแท็ก body)
-========================================= */
+
 body.login-page {
     background: linear-gradient(-45deg, #5C835A, #8EAF8B, #3A5A3C);
     background-size: 300% 300%;
@@ -59,16 +49,13 @@ body.login-page {
     padding: 15px;
 }
 
-/* =========================================
-   4. Navbar สีทึบ
-========================================= */
 .navbar {
     background: #46875c !important; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* บังคับโลโก้ MateTiww ให้เป็นสีขาว */
+/* โลโก้ MateTiww */
 .navbar-brand, 
 .navbar a.navbar-brand { 
     color: #ffffff !important; 

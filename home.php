@@ -19,7 +19,7 @@ $user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 
 if ($category_filter == 'study' || $category_filter == 'roommate') {
-    // เพิ่มการดึง profile_pic มาด้วย
+    // profile_pic มาด้วย
     $stmt = $conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
@@ -29,7 +29,7 @@ if ($category_filter == 'study' || $category_filter == 'roommate') {
     ");
     $stmt->execute([':category' => $category_filter]);
 } else {
-    // เพิ่มการดึง profile_pic มาด้วย
+    // profile_pic มาด้วย
     $stmt = $conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
@@ -84,6 +84,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <option value="" disabled selected>เลือกประเภทประกาศ...</option>
                                     <option value="study">หาเพื่อนติวหนังสือ</option>
                                     <option value="roommate">หารูมเมท / หอพัก</option>
+                                    <option value="other">อื่น ๆ</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -127,8 +128,10 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div>
                                         <?php if($post['category'] == 'study'): ?>
                                             <span class="badge badge-study rounded-pill px-3 py-2">ติวหนังสือ</span>
-                                        <?php else: ?>
+                                        <?php elseif($post['category'] == 'roommate'): ?>
                                             <span class="badge badge-roommate rounded-pill px-3 py-2">หารูมเมท</span>
+                                        <?php else: ?>
+                                            <span class="badge badge-other rounded-pill px-3 py-2">อื่น ๆ</span>
                                         <?php endif; ?>
                                         
                                         <?php if($post['user_id'] == $_SESSION['user_id']): ?>

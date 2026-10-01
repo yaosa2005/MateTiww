@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     
-    // บันทึกเสร็จแล้ว เด้งกลับไปหน้าหลัก
+    // เด้งกลับไปหน้าหลัก
     header("Location: home.php");
     exit();
 } else {
