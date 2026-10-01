@@ -121,7 +121,10 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <!-- เพิ่มรูปภาพโปรไฟล์วงกลมตรงนี้ -->
                                         <img src="<?php echo htmlspecialchars($post['poster_pic'] ?? 'https://api.dicebear.com/7.x/adventurer/svg?seed=default'); ?>" class="rounded-circle me-2 bg-light" width="35" height="35" alt="Avatar">
                                         <div>
-                                            <span class="fw-bold text-info d-block" style="line-height: 1.2;"><?php echo htmlspecialchars($post['poster_name'] ?? 'ไม่ทราบชื่อ'); ?></span>
+                                            <!-- ⭐️ จุดที่แก้ไข: ทำลิงก์กดไปดูโปรไฟล์คนโพสต์ เป็นสีม่วง -->
+                                            <a href="view_Profile.php?id=<?php echo $post['user_id']; ?>" class="fw-bold d-block" style="text-decoration: none; color: #a66cd0; line-height: 1.2;">
+                                                <?php echo htmlspecialchars($post['poster_name'] ?? 'ไม่ทราบชื่อ'); ?>
+                                            </a>
                                             <small class="text-white-50"><?php echo $post['created_at']; ?></small>
                                         </div>
                                     </div>

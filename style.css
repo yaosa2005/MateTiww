@@ -5,10 +5,10 @@
 }
 
 body {
-    background: #F9FDF9; /* สีขาวอมเขียว สบายตา */
+    background: #FCF2FB; /* สีขาวอมชมพู-ม่วง สบายตา */
     min-height: 100vh;
     font-family: 'Prompt', sans-serif !important; 
-    color: #3A5A3C; 
+    color: #6B3B80; /* เปลี่ยนสีข้อความหลักเป็นสีม่วงเข้ม */
     padding-top: 70px; 
     margin: 0;
 }
@@ -19,20 +19,42 @@ body {
 .glass-form .text-white, 
 .glass-form .text-light, 
 .glass-form .text-white-50 {
-    color: #3A5A3C !important;
+    color: #db6192 !important;
 }
 
 body:not(.login-page) h5.text-white {
-    color: #3A5A3C !important;
+    color: #973ea1 !important;
 }
 
-
+/* =========================================
+   หน้า Login: แอนิเมชันสี + รูปหนังสือ
+========================================= */
 body.login-page {
-    background: linear-gradient(-45deg, #5C835A, #8EAF8B, #3A5A3C);
+    /* โทนสีม่วง-ชมพูตามที่ผู้ใช้ตั้งมา */
+    background: linear-gradient(-45deg, #d5b2ca, #a66cd0, #ef69ac);
     background-size: 300% 300%;
     animation: gradientMove 15s ease infinite; 
     padding-top: 0; 
     color: #ffffff;
+    position: relative; 
+    z-index: 1; 
+}
+
+/* ดึงรูปหนังสือเวทมนตร์มาเป็นพื้นหลัง */
+body.login-page::before {
+    content: "";
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100vw; 
+    height: 100vh;
+    background-image: url('vedio/Magic Crystal Book.svg'); 
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 65%; /* ปรับให้พอดีกับภาพตัวอย่าง */
+    z-index: -1; 
+    opacity: 0.95; 
+    pointer-events: none;
 }
 
 .login-wrapper {
@@ -50,12 +72,11 @@ body.login-page {
 }
 
 .navbar {
-    background: #46875c !important; 
+    background: #d8a0e4 !important; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* โลโก้ MateTiww */
 .navbar-brand, 
 .navbar a.navbar-brand { 
     color: #ffffff !important; 
@@ -78,10 +99,10 @@ body.login-page {
     background: rgba(255, 255, 255, 0.95); 
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(72, 110, 74, 0.3);
+    border: 1px solid rgba(107, 59, 128, 0.3); /* ขอบสีม่วงอ่อน */
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
-    color: #3A5A3C !important; 
+    color: #6B3B80 !important; /* ตัวหนังสือม่วง */
     transition: all 0.3s ease;
 }
 .glass-form { border-radius: 24px; }
@@ -90,14 +111,15 @@ body.login-page {
     transform: translateY(-5px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     background: rgba(255, 255, 255, 1);
-    border: 1px solid rgba(72, 110, 74, 0.5);
+    border: 1px solid rgba(179, 111, 157, 0.5);
 }
 
 /* ---- สำหรับหน้า Login ---- */
 body.login-page .glass-card, body.login-page .glass-form {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    /* ปรับกระจกให้โปร่งแสงเข้ากับพื้นหลังสีม่วงตามในรูป */
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
     color: #fff !important; 
 }
 
@@ -112,9 +134,9 @@ body.login-page .glass-form .text-white-50 {
 }
 
 body.login-page .glass-card:hover {
-    box-shadow: 0 12px 35px 0 rgba(0, 0, 0, 0.15);
-    background: rgba(255, 255, 255, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 12px 35px 0 rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 /* =========================================
@@ -123,33 +145,33 @@ body.login-page .glass-card:hover {
 /* ---- สำหรับหน้าพื้นขาว ---- */
 .form-control, .form-select {
     background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(72, 110, 74, 0.3) !important;
-    color: #3A5A3C !important;
+    border: 1px solid rgba(107, 59, 128, 0.3) !important; /* กรอบช่องกรอกข้อมูลสีม่วง */
+    color: #6B3B80 !important;
     border-radius: 12px;
     transition: all 0.3s ease;
 }
-.form-control::placeholder { color: rgba(72, 110, 74, 0.5) !important; }
+.form-control::placeholder { color: rgba(107, 59, 128, 0.5) !important; }
 .form-control:focus, .form-select:focus {
     background: #ffffff !important;
-    border-color: #5C835A !important;
-    box-shadow: 0 0 12px rgba(92, 131, 90, 0.2) !important;
+    border-color: #B070CA !important;
+    box-shadow: 0 0 12px rgba(176, 112, 202, 0.3) !important; /* เงาตอนกดพิมพ์เป็นสีม่วง */
     transform: scale(1.01);
 }
-.form-select option { background-color: #ffffff; color: #3A5A3C; }
+.form-select option { background-color: #ffffff; color: #6B3B80; }
 
 /* ---- สำหรับหน้า Login ---- */
 body.login-page .form-control, body.login-page .form-select {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
     color: #ffffff !important;
 }
-body.login-page .form-control::placeholder { color: rgba(255, 255, 255, 0.6) !important; }
+body.login-page .form-control::placeholder { color: rgba(255, 255, 255, 0.7) !important; }
 body.login-page .form-control:focus, body.login-page .form-select:focus {
-    background: rgba(255, 255, 255, 0.2) !important;
+    background: rgba(255, 255, 255, 0.25) !important;
     border-color: #ffffff !important;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3) !important;
 }
-body.login-page .form-select option { background-color: #486E4A; color: #fff; }
+body.login-page .form-select option { background-color: #8B52A1; color: #fff; }
 
 /* =========================================
    7. กล่องคอมเมนต์ & ข้อความ
@@ -157,12 +179,12 @@ body.login-page .form-select option { background-color: #486E4A; color: #fff; }
 /* ---- สำหรับหน้าพื้นขาว ---- */
 .comment-box {
     background: rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(72, 110, 74, 0.1);
+    border: 1px solid rgba(107, 59, 128, 0.1);
     border-radius: 12px;
     padding: 12px;
     margin-bottom: 10px;
 }
-.text-info { color: #5C835A !important; text-shadow: none; }
+.text-info { color: #B070CA !important; text-shadow: none; }
 
 /* ---- สำหรับหน้า Login ---- */
 body.login-page .comment-box {
@@ -177,27 +199,27 @@ body.login-page .text-info { color: #F0E5D1 !important; text-shadow: 0 0 5px rgb
 .btn-primary {
     background: linear-gradient(45deg, #F0E5D1, #E6D5B8) !important;
     border: none !important;
-    color: #3A5A3C !important; 
-    font-weight: 500 !important;
+    color: #bd8ec2 !important; 
+    font-weight: 600 !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
 }
 .btn-primary:hover {
     background: linear-gradient(45deg, #FFF9F0, #F0E5D1) !important;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
-    color: #3A5A3C !important;
+    color: #a66cd0 !important;
 }
 .btn-custom-pulse { transition: all 0.2s ease-in-out; }
 .btn-custom-pulse:active { transform: scale(0.95); }
 
 .badge-study {
-    background: linear-gradient(135deg, #A3C9A6, #749F77);
-    box-shadow: 0 2px 10px rgba(163, 201, 166, 0.2);
+    background: linear-gradient(135deg, #940d90, #f299d1);
+    box-shadow: 0 2px 10px rgba(148, 13, 144, 0.3);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .badge-roommate {
-    background: linear-gradient(135deg, #D9A05B, #C28647);
-    box-shadow: 0 2px 10px rgba(217, 160, 91, 0.2);
+    background: linear-gradient(135deg, #953186, #eb7ce1);
+    box-shadow: 0 2px 10px rgba(149, 49, 134, 0.3);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
