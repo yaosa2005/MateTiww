@@ -14,25 +14,26 @@ $user_stmt = $conn->prepare("SELECT name FROM users WHERE user_id = :user_id");
 $user_stmt->execute([':user_id' => $current_user_id]);
 $user_data = $user_stmt->fetch(PDO::FETCH_ASSOC);$user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
 
-// --- ระบบดึงข้อมูลและตัวกรองหมวดหมู่ ---
+// --- ระบบดึงข้อมูลและตัวกรองหมวดหมู่ (แสดงเฉพาะโพสต์ที่อายุยังไม่เกิน 24 ชั่วโมง) ---
 $category_filter = isset($_GET['category']) ?$_GET['category'] : '';
 
 if ($category_filter == 'study' || $category_filter == 'roommate' ||$category_filter == 'other') {
-    // ดึงข้อมูลพร้อม profile_pic ตามหมวดหมู่ที่เลือก
+    // ดึงข้อมูลตามหมวดหมู่ และกรองเฉพาะโพสต์ที่ไม่เกิน 24 ชั่วโมง
     $stmt =$conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.user_id 
-        WHERE posts.category = :category
+        WHERE posts.category = :category AND posts.created_at >= datetime('now', '-24 hours')
         ORDER BY posts.created_at DESC
     ");
     $stmt->execute([':category' =>$category_filter]);
 } else {
-    // ดึงโพสต์ทั้งหมด
+    // ดึงโพสต์ทั้งหมด และกรองเฉพาะโพสต์ที่ไม่เกิน 24 ชั่วโมง
     $stmt =$conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.user_id 
+        WHERE posts.created_at >= datetime('now', '-24 hours')
         ORDER BY posts.created_at DESC
     ");
     $stmt->execute();
@@ -135,7 +136,7 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- ฟีดโพสต์ล่าสุด -->
             <div class="col-md-8">
                 <div class="d-flex justify-content-between align-items-center mb-3 feed-header-actions">
-                    <h5 class="fw-bold mb-0 text-white">โพสต์ล่าสุด</h5>
+                    <h5 class="fw-bold mb-0 text-white">โพสต์ล่าสุด (แสดงภายใน 24 ชม.)</h5>
                     <div class="btn-group shadow-sm">
                         <a href="home.php" class="btn btn-sm <?php echo empty($category_filter) ? 'btn-light' : 'btn-outline-light'; ?>">ทั้งหมด</a>
                         <a href="home.php?category=study" class="btn btn-sm <?php echo $category_filter == 'study' ? 'btn-info' : 'btn-outline-info'; ?>">ติวหนังสือ</a>
@@ -186,7 +187,6 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <!-- ส่วนแสดงคอมเมนต์ -->
                                 <div class="mb-3">
                                     <h6 class="fw-bold fs-6 mb-2 text-white-50">ความคิดเห็น:</h6>
-                                    
                                     <?php 
                                     $comment_stmt =$conn->prepare("
                                         SELECT comments.*, users.name as commenter_name, users.profile_pic as commenter_pic 
@@ -230,7 +230,7 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 <?php else: ?>
                     <div class="card glass-card text-center py-5">
-                        <p class="text-white-50 mb-0">ยังไม่มีประกาศในขณะนี้ หรือไม่พบประกาศในหมวดหมู่นี้</p>
+                        <p class="text-white-50 mb-0">ยังไม่มีประกาศในขณะนี้ หรือโพสต์ทั้งหมดหมดอายุ (เกิน 24 ชม.) แล้ว</p>
                     </div>
                 <?php endif; ?>
 
