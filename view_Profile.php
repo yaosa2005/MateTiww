@@ -24,12 +24,12 @@ if (!$target_user) {
     exit();
 }
 
-// ⭐️ ดึงรีวิวทั้งหมดที่ post_id เท่ากับไอดีของเจ้าของโปรไฟล์นี้
+// ⭐️️ ดึงรีวิวทั้งหมด (แก้ไขให้ JOIN กับ reviewer_id และหาข้อมูลเป้าหมายจาก target_user_id)
 $review_stmt = $conn->prepare("
     SELECT reviews.*, users.name as reviewer_name, users.profile_pic as reviewer_pic 
     FROM reviews 
-    LEFT JOIN users ON reviews.user_id = users.user_id 
-    WHERE reviews.post_id = :target_id 
+    LEFT JOIN users ON reviews.reviewer_id = users.user_id 
+    WHERE reviews.target_user_id = :target_id 
     ORDER BY reviews.created_at DESC
 ");
 $review_stmt->execute([':target_id' => $target_user_id]);
