@@ -58,6 +58,22 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- นำเข้า Animate.css สำหรับเอฟเฟคป๊อปอัป -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <style>
+        /* CSS ปรับแต่งเพิ่มเติมสำหรับมือถือให้บาลานซ์ */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            .card {
+                border-radius: 15px;
+            }
+            #draggableView {
+                width: 100px !important;
+                height: 100px !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -67,7 +83,6 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
             <a class="navbar-brand fw-bold text-info" href="home.php">MateTiww</a>
             
             <div class="d-flex align-items-center">
-                <!-- เหลือแค่ลิงก์ไปหน้าโปรไฟล์ เอาปุ่มออกจากระบบออกแล้ว -->
                 <a href="profile.php" class="text-white text-decoration-none fw-medium">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"/>
@@ -126,10 +141,8 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <div class="d-flex align-items-center">
-                                        <!-- เพิ่มรูปภาพโปรไฟล์วงกลมตรงนี้ -->
                                         <img src="<?php echo htmlspecialchars($post['poster_pic'] ?? 'https://api.dicebear.com/7.x/adventurer/svg?seed=default'); ?>" class="rounded-circle me-2 bg-light" width="35" height="35" alt="Avatar">
                                         <div>
-                                            <!-- ⭐️ จุดที่แก้ไข: ทำลิงก์กดไปดูโปรไฟล์คนโพสต์ เป็นสีม่วง -->
                                             <a href="view_Profile.php?id=<?php echo $post['user_id']; ?>" class="fw-bold d-block" style="text-decoration: none; color: #a66cd0; line-height: 1.2;">
                                                 <?php echo htmlspecialchars($post['poster_name'] ?? 'ไม่ทราบชื่อ'); ?>
                                             </a>
@@ -146,7 +159,6 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <?php endif; ?>
                                         
                                         <?php if($post['user_id'] ==$_SESSION['user_id']): ?>
-                                            <!-- เพิ่มปุ่มแก้ไขโพสต์ -->
                                             <a href="edit_post.php?post_id=<?php echo $post['post_id']; ?>" 
                                                class="btn btn-sm btn-outline-warning rounded-pill ms-2">แก้ไข</a>
 
@@ -166,7 +178,6 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="mb-3">
                                     <h6 class="fw-bold fs-6 mb-2 text-white-50">ความคิดเห็น:</h6>
                                     <?php 
-                                    // เพิ่มดึงรูป profile_pic ของคนคอมเมนต์มาด้วย
                                     $comment_stmt =$conn->prepare("
                                         SELECT comments.*, users.name as commenter_name, users.profile_pic as commenter_pic 
                                         FROM comments 
@@ -181,7 +192,6 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                                         foreach ($comments as$comment): 
                                     ?>
                                         <div class="comment-box d-flex align-items-start mb-2">
-                                            <!-- รูปโปรไฟล์วงกลมของคนคอมเมนต์ -->
                                             <img src="<?php echo htmlspecialchars($comment['commenter_pic'] ?? 'https://api.dicebear.com/7.x/adventurer/svg?seed=default'); ?>" class="rounded-circle me-2 mt-1 bg-light" width="25" height="25" alt="Avatar">
                                             <div>
                                                 <span class="fw-bold text-info" style="font-size: 0.9rem;"><?php echo htmlspecialchars($comment['commenter_name'] ?? 'ไม่ทราบชื่อ'); ?>:</span>
@@ -218,7 +228,7 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-<!-- เจ้าแมวน้อยลากขยับได้ -->
+<!-- เจ้าแมวน้อยลากขยับได้ (รองรับมือถือและคอม) -->
 <div id="draggableView" style="position: fixed; bottom: 20px; left: 20px; z-index: 1000; width: 130px; height: 130px; cursor: grab; touch-action: none;">
     <img src="vedio/Blue Working Cat Animation.svg" alt="Working Cat" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.15)); pointer-events: none;">
 </div>
@@ -228,11 +238,11 @@ const draggable = document.getElementById('draggableView');
 let isDragging = false;
 let startX, startY, initialLeft, initialTop;
 
-draggable.addEventListener('mousedown', (e) => {
+function startDrag(clientX, clientY) {
     isDragging = true;
     draggable.style.cursor = 'grabbing';
-    startX = e.clientX;
-    startY = e.clientY;
+    startX = clientX;
+    startY = clientY;
     
     const rect = draggable.getBoundingClientRect();
     initialLeft = rect.left;
@@ -242,25 +252,44 @@ draggable.addEventListener('mousedown', (e) => {
     draggable.style.right = 'auto';
     draggable.style.left = initialLeft + 'px';
     draggable.style.top = initialTop + 'px';
-    
-    e.preventDefault();
-});
+}
 
-document.addEventListener('mousemove', (e) => {
+function onDrag(clientX, clientY) {
     if (!isDragging) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
+    const dx = clientX - startX;
+    const dy = clientY - startY;
     
     draggable.style.left = (initialLeft + dx) + 'px';
     draggable.style.top = (initialTop + dy) + 'px';
-});
+}
 
-document.addEventListener('mouseup', () => {
+function stopDrag() {
     if (isDragging) {
         isDragging = false;
         draggable.style.cursor = 'grab';
     }
+}
+
+// Mouse Events
+draggable.addEventListener('mousedown', (e) => {
+    startDrag(e.clientX, e.clientY);
+    e.preventDefault();
 });
+document.addEventListener('mousemove', (e) => onDrag(e.clientX, e.clientY));
+document.addEventListener('mouseup', stopDrag);
+
+// Touch Events (สำหรับมือถือ)
+draggable.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0) {
+        startDrag(e.touches[0].clientX, e.touches[0].clientY);
+    }
+});
+document.addEventListener('touchmove', (e) => {
+    if (isDragging && e.touches.length > 0) {
+        onDrag(e.touches[0].clientX, e.touches[0].clientY);
+    }
+}, { passive: false });
+document.addEventListener('touchend', stopDrag);
 </script>
 
 <!-- นำเข้า SweetAlert2 สำหรับป๊อปอัป -->
@@ -286,7 +315,6 @@ document.addEventListener('mouseup', () => {
             popup: 'animate__animated animate__zoomOut animate__faster'
         }
     }).then(() => {
-        // ลบสถานะออกจาก URL เพื่อไม่ให้เด้งซ้ำตอนรีเฟรชหน้า
         window.history.replaceState(null, null, window.location.pathname);
     });
 </script>
