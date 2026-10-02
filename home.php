@@ -1,30 +1,24 @@
 <?php
-
 session_start();
-
 require_once 'includes/db_connect.php';
-
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
 }
 
+$current_user_id = $_SESSION['user_id'];
 
-$current_user_id =$_SESSION['user_id'];
-
-
-// ดึงชื่อผู้ใช้จากฐานข้อมูลเพื่อความชัวร์
-$user_stmt =$conn->prepare("SELECT name FROM users WHERE user_id = :user_id");
-$user_stmt->execute([':user_id' => $current_user_id]);$user_data = $user_stmt->fetch(PDO::FETCH_ASSOC);$user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
-
+// ดึงชื่อผู้ใช้จากฐานข้อมูลเพื่อให้มั่นใจว่าเป็นข้อมูลปัจจุบัน
+$user_stmt = $conn->prepare("SELECT name FROM users WHERE user_id = :user_id");
+$user_stmt->execute([':user_id' => $current_user_id]);
+$user_data = $user_stmt->fetch(PDO::FETCH_ASSOC);$user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
 
 // --- ระบบดึงข้อมูลและตัวกรองหมวดหมู่ ---
 $category_filter = isset($_GET['category']) ?$_GET['category'] : '';
 
-
-if ($category_filter == 'study' ||$category_filter == 'roommate') {
-    // profile_pic มาด้วย
+if ($category_filter == 'study' || $category_filter == 'roommate' ||$category_filter == 'other') {
+    // ดึงข้อมูลพร้อม profile_pic ตามหมวดหมู่ที่เลือก
     $stmt =$conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
@@ -34,7 +28,7 @@ if ($category_filter == 'study' ||$category_filter == 'roommate') {
     ");
     $stmt->execute([':category' =>$category_filter]);
 } else {
-    // profile_pic มาด้วย
+    // ดึงโพสต์ทั้งหมด
     $stmt =$conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
@@ -45,7 +39,6 @@ if ($category_filter == 'study' ||$category_filter == 'roommate') {
 }
 $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="th">
@@ -72,6 +65,21 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                 width: 100px !important;
                 height: 100px !important;
             }
+            /* จัดเรียงปุ่มฟิลเตอร์ด้านบนให้ยืดหยุ่นสวยงามบนมือถือ */
+            .feed-header-actions {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 10px;
+            }
+            .btn-group {
+                width: 100%;
+                display: flex;
+            }
+            .btn-group .btn {
+                flex: 1;
+                font-size: 0.75rem;
+                padding: 0.375rem 0.1rem;
+            }
         }
     </style>
 </head>
@@ -85,8 +93,8 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="d-flex align-items-center">
                 <a href="profile.php" class="text-white text-decoration-none fw-medium">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"/>
-</svg> (คุณ <?php echo htmlspecialchars($user_name); ?>)
+                        <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z"/>
+                    </svg> (คุณ <?php echo htmlspecialchars($user_name); ?>)
                 </a>
             </div>
         </div>
@@ -126,12 +134,13 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <!-- ฟีดโพสต์ล่าสุด -->
             <div class="col-md-8">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 feed-header-actions">
                     <h5 class="fw-bold mb-0 text-white">โพสต์ล่าสุด</h5>
                     <div class="btn-group shadow-sm">
                         <a href="home.php" class="btn btn-sm <?php echo empty($category_filter) ? 'btn-light' : 'btn-outline-light'; ?>">ทั้งหมด</a>
                         <a href="home.php?category=study" class="btn btn-sm <?php echo $category_filter == 'study' ? 'btn-info' : 'btn-outline-info'; ?>">ติวหนังสือ</a>
                         <a href="home.php?category=roommate" class="btn btn-sm <?php echo $category_filter == 'roommate' ? 'btn-success' : 'btn-outline-success'; ?>">หารูมเมท</a>
+                        <a href="home.php?category=other" class="btn btn-sm <?php echo $category_filter == 'other' ? 'btn-warning' : 'btn-outline-warning'; ?>">อื่น ๆ</a>
                     </div>
                 </div>
                 
@@ -149,21 +158,21 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <small class="text-white-50"><?php echo $post['created_at']; ?></small>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="d-flex align-items-center flex-wrap justify-content-end gap-1">
                                         <?php if($post['category'] == 'study'): ?>
                                             <span class="badge badge-study rounded-pill px-3 py-2">ติวหนังสือ</span>
                                         <?php elseif($post['category'] == 'roommate'): ?>
                                             <span class="badge badge-roommate rounded-pill px-3 py-2">หารูมเมท</span>
                                         <?php else: ?>
-                                            <span class="badge badge-other rounded-pill px-3 py-2">อื่น ๆ</span>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">อื่น ๆ</span>
                                         <?php endif; ?>
                                         
                                         <?php if($post['user_id'] ==$_SESSION['user_id']): ?>
                                             <a href="edit_post.php?post_id=<?php echo $post['post_id']; ?>" 
-                                               class="btn btn-sm btn-outline-warning rounded-pill ms-2">แก้ไข</a>
+                                               class="btn btn-sm btn-outline-warning rounded-pill ms-1">แก้ไข</a>
 
                                             <a href="delete_post.php?post_id=<?php echo $post['post_id']; ?>" 
-                                               class="btn btn-sm btn-outline-danger rounded-pill ms-2"
+                                               class="btn btn-sm btn-outline-danger rounded-pill ms-1"
                                                onclick="return confirm('คุณแน่ใจหรือไม่ว่าต้องการลบประกาศนี้?');">ลบ</a>
                                         <?php endif; ?>
                                     </div>
@@ -177,6 +186,7 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <!-- ส่วนแสดงคอมเมนต์ -->
                                 <div class="mb-3">
                                     <h6 class="fw-bold fs-6 mb-2 text-white-50">ความคิดเห็น:</h6>
+                                    
                                     <?php 
                                     $comment_stmt =$conn->prepare("
                                         SELECT comments.*, users.name as commenter_name, users.profile_pic as commenter_pic 
