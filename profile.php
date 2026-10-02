@@ -2,7 +2,7 @@
 session_start();
 require_once 'includes/db_connect.php';
 
-// เช็กว่ามีการล็อกอินอยู่ไหม
+// เช็กการล็อกอินอยู่ไหม
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
@@ -28,7 +28,11 @@ $avatars = [
     "pic/pro3.jpg",
     "pic/pro4.jpg",
     "pic/pro5.jpg",
-    "pic/pro7.jpg"
+    "pic/pro7.jpg",
+    "pic/pro8.jpg",
+    "pic/pro9.jpg",
+    "pic/pro10.jpg"
+
 ];
 ?>
 

@@ -1,11 +1,15 @@
 <?php
+
 session_start();
+
 require_once 'includes/db_connect.php';
+
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['user_id'];
@@ -35,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-header("Location: home.php");
+header("Location: home.php?status=success");
 exit();
+
 ?>
