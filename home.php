@@ -14,26 +14,24 @@ $user_stmt = $conn->prepare("SELECT name FROM users WHERE user_id = :user_id");
 $user_stmt->execute([':user_id' => $current_user_id]);
 $user_data = $user_stmt->fetch(PDO::FETCH_ASSOC);$user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
 
-// --- ระบบดึงข้อมูลและตัวกรองหมวดหมู่ (แสดงเฉพาะโพสต์ที่อายุยังไม่เกิน 24 ชั่วโมง) ---
+// --- ระบบดึงข้อมูลและตัวกรองหมวดหมู่ (กรองเฉพาะโพสต์ภายใน 24 ชั่วโมง) ---
 $category_filter = isset($_GET['category']) ?$_GET['category'] : '';
 
 if ($category_filter == 'study' || $category_filter == 'roommate' ||$category_filter == 'other') {
-    // ดึงข้อมูลตามหมวดหมู่ และกรองเฉพาะโพสต์ที่ไม่เกิน 24 ชั่วโมง
     $stmt =$conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.user_id 
-        WHERE posts.category = :category AND posts.created_at >= datetime('now', '-24 hours')
+        WHERE posts.category = :category AND datetime(posts.created_at) >= datetime('now', '-24 hours')
         ORDER BY posts.created_at DESC
     ");
     $stmt->execute([':category' =>$category_filter]);
 } else {
-    // ดึงโพสต์ทั้งหมด และกรองเฉพาะโพสต์ที่ไม่เกิน 24 ชั่วโมง
     $stmt =$conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.user_id 
-        WHERE posts.created_at >= datetime('now', '-24 hours')
+        WHERE datetime(posts.created_at) >= datetime('now', '-24 hours')
         ORDER BY posts.created_at DESC
     ");
     $stmt->execute();
