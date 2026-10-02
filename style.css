@@ -231,3 +231,23 @@ body.login-page .text-info { color: #F0E5D1 !important; text-shadow: 0 0 5px rgb
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
+/* =========================================
+   📱 แก้ไขปัญหาปุ่มทับกันเฉพาะหน้าจอมือถือ
+========================================= */
+@media (max-width: 768px) {
+    /* ปรับกล่องปุ่มจัดการ (แก้ไข/ลบ) และป้ายสถานะให้อยู่ในรูปแบบที่ยืดหยุ่น */
+    .post-actions, 
+    .card-header-actions,
+    .d-flex.align-items-center {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+/* ป้องกันป้ายสถานะชนกันในหน้าจอมือถือ */
+    .badge-study, 
+    .badge-roommate {
+        display: inline-block;
+        margin-bottom: 4px;
+    }
+}
