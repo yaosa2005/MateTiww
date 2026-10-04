@@ -15,7 +15,6 @@ if (isset($_SESSION['user_id'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
-    
 </head>
 <body class="login-page"> 
     <div class="login-wrapper">
@@ -35,27 +34,37 @@ if (isset($_SESSION['user_id'])) {
                     </ul>
 
                     <div class="tab-content" id="pills-tabContent">
-                        <!-- แท็บเข้าสู่ระบบ (เอาแค่ email) -->
+                        <!-- แท็บเข้าสู่ระบบ (เพิ่มช่องรหัสผ่าน) -->
                         <div class="tab-pane fade show active" id="pills-login" role="tabpanel">
                             <form action="login_action.php" method="POST">
                                 <div class="mb-3 text-start">
                                     <label class="form-label text-white-50 small">อีเมลมหาวิทยาลัย</label>
                                     <input type="email" class="form-control" name="email" placeholder="กรอกอีเมลของคุณ" required>
                                 </div>
+                                <!-- ⭐️ เพิ่มช่องกรอกรหัสผ่าน -->
+                                <div class="mb-3 text-start">
+                                    <label class="form-label text-white-50 small">รหัสผ่าน</label>
+                                    <input type="password" class="form-control" name="password" placeholder="กรอกรหัสผ่านของคุณ" required>
+                                </div>
                                 <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold btn-custom-pulse mt-2">เข้าสู่ระบบ</button>
                             </form>
                         </div>
 
-                        <!-- แท็บสมัครสมาชิก (เอาแค่ชื่อกับ email) -->
+                        <!-- แท็บสมัครสมาชิก (เพิ่มช่องตั้งรหัสผ่านสำหรับผู้ใช้ใหม่ด้วย) -->
                         <div class="tab-pane fade" id="pills-register" role="tabpanel">
                             <form action="register_action.php" method="POST">
                                 <div class="mb-2 text-start">
                                     <label class="form-label text-white-50 small">ชื่อเล่น</label>
                                     <input type="text" class="form-control" name="name" placeholder="กรอกชื่อของคุณ" required>
                                 </div>
-                                <div class="mb-3 text-start">
+                                <div class="mb-2 text-start">
                                     <label class="form-label text-white-50 small">อีเมลมหาวิทยาลัย</label>
                                     <input type="email" class="form-control" name="email" placeholder="กรอกอีเมลเพื่อสมัคร" required>
+                                </div>
+                                <!-- ⭐️ เพิ่มช่องตั้งรหัสผ่านตอนสมัคร -->
+                                <div class="mb-3 text-start">
+                                    <label class="form-label text-white-50 small">รหัสผ่าน</label>
+                                    <input type="password" class="form-control" name="password" placeholder="ตั้งรหัสผ่าน" required>
                                 </div>
                                 <button type="submit" class="btn btn-success w-100 rounded-pill py-2 fw-bold btn-custom-pulse mt-2" style="background: linear-gradient(45deg, #46875c, #749F77); border: none;">ยืนยันสมัครสมาชิก</button>
                             </form>

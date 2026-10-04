@@ -8,14 +8,22 @@ try {
     $conn->exec("DROP TABLE IF EXISTS posts");
     $conn->exec("DROP TABLE IF EXISTS users");
 
-    // 1. สร้างตาราง users
+    // 1. สร้างตาราง users (มีคอลัมน์ role และ password)
     $conn->exec("CREATE TABLE users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
-        profile_pic TEXT DEFAULT 'pic/pro1.jpg'
+        profile_pic TEXT DEFAULT 'pic/pro1.jpg',
+        role TEXT DEFAULT 'user' 
     )");
+
+    // เข้ารหัสรหัสผ่านแอดมินเป็น admin1234
+    $admin_password = password_hash('admin1234', PASSWORD_DEFAULT);
+
+    // เพิ่มบัญชีแอดมินอัตโนมัติผ่าน SQL
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES ('Admin', 'admin@matetiww.com', :password, 'admin')");
+    $stmt->execute([':password' => $admin_password]);
 
     // 2. สร้างตาราง posts
     $conn->exec("CREATE TABLE posts (
@@ -40,7 +48,7 @@ try {
         FOREIGN KEY (user_id) REFERENCES users(user_id)
     )");
 
-    // 4. สร้างตาราง reviews (เพิ่มเข้ามาใหม่ให้สมบูรณ์)
+    // 4. สร้างตาราง reviews
     $conn->exec("CREATE TABLE reviews (
         review_id INTEGER PRIMARY KEY AUTOINCREMENT,
         target_user_id INTEGER NOT NULL,
@@ -52,7 +60,7 @@ try {
         FOREIGN KEY (reviewer_id) REFERENCES users(user_id)
     )");
 
-    echo "<script>alert('สร้างฐานข้อมูลใหม่พร้อมระบบรูปโปรไฟล์และรีวิวเรียบร้อยแล้ว!'); window.location.href='index.php';</script>";
+    echo "<script>alert('รีเซ็ตฐานข้อมูลและสร้างรหัสผ่านแอดมิน (admin1234) เรียบร้อยแล้ว!'); window.location.href='index.php';</script>";
 
 } catch (PDOException $e) {
     echo "เกิดข้อผิดพลาดในการสร้างฐานข้อมูล: " . $e->getMessage();

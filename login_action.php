@@ -4,20 +4,26 @@ require_once 'includes/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    // เช็กแค่ว่ามีอีเมลนี้ในระบบไหม (ไม่ต้องเช็กรหัสผ่าน)
     $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->execute([':email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
-        // ถ้าเจออีเมล ก็ให้ล็อกอินผ่านเลย
+    // ตรวจสอบความถูกต้องของอีเมลและรหัสผ่านที่แฮชไว้
+    if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['user_id'];
-        header("Location: home.php");
+        $_SESSION['role'] = $user['role']; 
+        
+        // แยกหน้าตามสิทธิ์ของผู้ใช้งาน
+        if ($user['role'] === 'admin') {
+            header("Location: admin_dashboard.php");
+        } else {
+            header("Location: home.php");
+        }
         exit();
     } else {
-        // ถ้าไม่เจอ
-        echo "<script>alert('ไม่พบอีเมลนี้ในระบบ กรุณาสมัครสมาชิกก่อนครับ!'); window.history.back();</script>";
+        echo "<script>alert('อีเมลหรือรหัสผ่านไม่ถูกต้อง!'); window.history.back();</script>";
     }
 }
 ?>
