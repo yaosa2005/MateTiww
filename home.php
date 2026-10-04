@@ -28,7 +28,7 @@ if ($category_filter == 'study' || $category_filter == 'roommate' || $category_f
         WHERE posts.category = :category AND posts.created_at >= datetime('now', '+7 hours', '-24 hours')
         ORDER BY posts.created_at DESC
     ");
-    $stmt->execute([':category' => $category_filter]);
+    $stmt->execute([':category' =>$category_filter]);
 } else {
     $stmt =$conn->prepare("
         SELECT posts.*, users.name as poster_name, users.profile_pic as poster_pic 
@@ -315,3 +315,4 @@ document.addEventListener('touchend', stopDrag);
 
 </body>
 </html>
+
