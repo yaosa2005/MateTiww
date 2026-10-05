@@ -8,7 +8,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// 2. ดึงข้อมูลผู้ใช้งานทั้งหมดมาแสดง
 $stmt_users = $conn->query("SELECT * FROM users ORDER BY user_id DESC");
 $all_users = $stmt_users->fetchAll(PDO::FETCH_ASSOC);
 

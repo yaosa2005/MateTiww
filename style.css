@@ -5,7 +5,7 @@
 }
 
 body {
-    background: #FCF2FB; /* สีขาวอมชมพู-ม่วง สบายตา */
+    background: #FCF2FB;
     min-height: 100vh;
     font-family: 'Prompt', sans-serif !important; 
     color: #6B3B80; /* เปลี่ยนสีข้อความหลักเป็นสีม่วงเข้ม */
@@ -26,11 +26,8 @@ body:not(.login-page) h5.text-white {
     color: #973ea1 !important;
 }
 
-/* =========================================
-   หน้า Login: แอนิเมชันสี + รูปหนังสือ
-========================================= */
 body.login-page {
-    /* โทนสีม่วง-ชมพูตามที่ผู้ใช้ตั้งมา */
+
     background: linear-gradient(-45deg, #d5b2ca, #a66cd0, #ef69ac);
     background-size: 300% 300%;
     animation: gradientMove 15s ease infinite; 
