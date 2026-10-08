@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $allowed_domain = "@psu.ac.th";
     
-    // เช็กว่าลงท้ายด้วย @psu.ac.th
+    // เช็ก @psu.ac.th
     if (substr($email, -strlen($allowed_domain)) !== $allowed_domain) {
         echo "<script>alert('โปรดใช้ (@psu.ac.th) เท่านั้น!'); window.history.back();</script>";
-        exit(); // สั่งหยุดทำงานทันที
+        exit();
     }
 
 

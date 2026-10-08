@@ -175,9 +175,7 @@ body.login-page .form-control:focus, body.login-page .form-select:focus {
 }
 body.login-page .form-select option { background-color: #8B52A1; color: #fff; }
 
-/* =========================================
-   7. กล่องคอมเมนต์ & ข้อความ
-========================================= */
+   
 /* ---- สำหรับหน้าพื้นขาว ---- */
 .comment-box {
     background: rgba(0, 0, 0, 0.03);

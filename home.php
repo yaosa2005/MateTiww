@@ -142,7 +142,7 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- ฟีดโพสต์ล่าสุด -->
             <div class="col-md-8">
                 <div class="d-flex justify-content-between align-items-center mb-3 feed-header-actions">
-                    <h5 class="fw-bold mb-0 text-white">โพสต์ล่าสุด (แสดงภายใน 24 ชม.)</h5>
+                    <h5 class="fw-bold mb-0 text-white">โพสต์ล่าสุด 🐰ྀི ❤︎</h5>
                     <div class="btn-group shadow-sm">
                         <a href="home.php" class="btn btn-sm <?php echo empty($category_filter) ? 'btn-light' : 'btn-outline-light'; ?>">ทั้งหมด</a>
                         <a href="home.php?category=study" class="btn btn-sm <?php echo $category_filter == 'study' ? 'btn-info' : 'btn-outline-info'; ?>">ติวหนังสือ</a>
