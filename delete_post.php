@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// ตรวจสอบสิทธิ์ Admin จากฐานข้อมูลแบบสดๆ เพื่อความแม่นยำสูงสุด
+// ตรวจสอบสิทธิ์ Admin จากฐานข้อมูลแบบสดๆ 
 $stmt_role = $conn->prepare("SELECT role FROM users WHERE user_id = :user_id");
 $stmt_role->execute([':user_id' => $user_id]);
 $user_info = $stmt_role->fetch(PDO::FETCH_ASSOC);
@@ -33,7 +33,7 @@ if (isset($_GET['post_id'])) {
         ]);
     }
 
-    // ถ้าลบโพสต์สำเร็จ ให้ลบคอมเมนต์ที่เกี่ยวข้องทิ้งด้วย
+    // ถ้าลบโพสต์สำเร็จ ให้ลบคอมเมนต์ที
     if ($del_post->rowCount() > 0) {
         $del_comment = $conn->prepare("DELETE FROM comments WHERE post_id = :post_id");
         $del_comment->execute([':post_id' => $post_id]);

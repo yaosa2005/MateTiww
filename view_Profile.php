@@ -35,7 +35,7 @@ $review_stmt = $conn->prepare("
 $review_stmt->execute([':target_id' => $target_user_id]);
 $reviews = $review_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// คำนวณหาค่าเฉลี่ยคะแนนดาว
+// คำนวณคะแนนดาว
 $avg_rating = 0;
 if (count($reviews) > 0) {
     $total_score = array_sum(array_column($reviews, 'rating'));

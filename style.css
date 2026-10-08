@@ -8,7 +8,7 @@ body {
     background: #FCF2FB;
     min-height: 100vh;
     font-family: 'Prompt', sans-serif !important; 
-    color: #6B3B80; /* เปลี่ยนสีข้อความหลักเป็นสีม่วงเข้ม */
+    color: #6B3B80; 
     padding-top: 70px; 
     margin: 0;
 }
@@ -96,9 +96,7 @@ body.login-page::before {
     color: #ffffff !important; 
 }
 
-/* =========================================
-   5. สไตล์ Glassmorphism
-========================================= */
+
 /* ---- สำหรับหน้าพื้นขาว (home.php) ---- */
 .glass-card, .glass-form {
     background: rgba(255, 255, 255, 0.95); 

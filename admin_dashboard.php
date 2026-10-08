@@ -2,7 +2,7 @@
 session_start();
 require_once 'includes/db_connect.php';
 
-// 1.admin เท่านั้นถึงจะเข้าหน้านี้ได้
+//admin เท่านั้น
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     echo "<script>alert('เฉพาะผู้ดูแลระบบเท่านั้นที่มีสิทธิ์เข้าถึงหน้านี้!'); window.location.href='home.php';</script>";
     exit();
@@ -61,10 +61,10 @@ $all_posts = $stmt_posts->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo htmlspecialchars($u['name']); ?></td>
                         <td><?php echo htmlspecialchars($u['email']); ?></td>
                         <td>
-                            <?php if($u['role'] == 'admin'): ?>
-                                <span class="badge bg-danger">Admin</span>
-                            <?php else: ?>
-                                <span class="badge bg-primary">User</span>
+                         <?php if($u['role'] == 'admin'): ?>
+                         <span class="badge bg-danger">Admin</span>
+                         <?php else: ?>
+                         <span class="badge bg-primary">User</span>
                             <?php endif; ?>
                         </td>
                     </tr>

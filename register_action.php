@@ -7,6 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $raw_password = $_POST['password']; // รับรหัสผ่านที่ผู้ใช้กรอก
 
+    $allowed_domain = "@psu.ac.th";
+    
+    // เช็กว่าลงท้ายด้วย @psu.ac.th
+    if (substr($email, -strlen($allowed_domain)) !== $allowed_domain) {
+        echo "<script>alert('โปรดใช้ (@psu.ac.th) เท่านั้น!'); window.history.back();</script>";
+        exit(); // สั่งหยุดทำงานทันที
+    }
+
+
     // เข้ารหัสรหัสผ่านก่อนบันทึก
     $hashed_password = password_hash($raw_password, PASSWORD_DEFAULT);
 

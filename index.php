@@ -55,7 +55,7 @@ if (isset($_SESSION['user_id'])) {
 <form action="register_action.php" method="POST">
 <div class="mb-2 text-start">
 <label class="form-label text-white-50 small">ชื่อเล่น</label>
-<input type="text" class="form-control" name="name" placeholder="กรอกชื่อของคุณ" required>
+<input type="text" class="form-control" name="name" placeholder="กรอกชื่อเล่นของคุณ" required>
      </div>
 <div class="mb-2 text-start">
 <label class="form-label text-white-50 small">อีเมลมหาวิทยาลัย</label>

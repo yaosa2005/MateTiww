@@ -17,7 +17,7 @@ $user_data = $user_stmt->fetch(PDO::FETCH_ASSOC);
 $user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
 $current_role = $user_data ? $user_data['role'] : 'user';
 
-// --- ระบบดึงข้อมูลและตัวกรองหมวดหมู่ (แสดงเฉพาะโพสต์ภายใน 24 ชม. ล่าสุด) ---
+// ---แสดงเฉพาะโพสต์ภายใน 24 ชม. ล่าสุด---
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 
 if ($category_filter == 'study' || $category_filter == 'roommate' || $category_filter == 'other' || $category_filter == 'admin_news') {
