@@ -37,7 +37,7 @@ body.login-page {
     z-index: 1; 
 }
 
-/* ดึงรูปหนังสือเวทมนตร์มาเป็นพื้นหลัง (คอม) */
+/* (คอม) */
 body.login-page::before {
     content: "";
     position: fixed;
@@ -48,7 +48,7 @@ body.login-page::before {
     background-image: url('vedio/Magic Crystal Book.svg'); 
     background-repeat: no-repeat;
     background-position: center 75%; 
-    background-size: 65%; /* ปรับให้พอดีกับภาพตัวอย่างในคอม */
+    background-size: 65%; /* ปรับในคอม */
     z-index: -1; 
     opacity: 0.95; 
     pointer-events: none;

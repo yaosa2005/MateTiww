@@ -71,7 +71,7 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
             <a class="navbar-brand fw-bold text-info" href="home.php">MateTiww</a>
             <div class="d-flex align-items-center gap-2">
                 
-                <!-- ⚙️ ปุ่มทางเข้าหลังบ้าน (แสดงเฉพาะ Admin เท่านั้น) -->
+                <!--(แสดงเฉพาะ Admin เท่านั้น) -->
                 <?php if ($current_role === 'admin'): ?>
                     <a href="admin_dashboard.php" class="btn btn-sm btn-danger rounded-pill fw-bold px-3 shadow-sm">
                         ⚙️ จัดการหลังบ้าน

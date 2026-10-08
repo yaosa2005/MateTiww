@@ -2,7 +2,7 @@
 session_start();
 require_once 'includes/db_connect.php';
 
-// 1. เช็กสิทธิ์ว่าล็อกอินอยู่และเป็น admin เท่านั้นถึงจะเข้าหน้านี้ได้
+// 1.admin เท่านั้นถึงจะเข้าหน้านี้ได้
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     echo "<script>alert('เฉพาะผู้ดูแลระบบเท่านั้นที่มีสิทธิ์เข้าถึงหน้านี้!'); window.location.href='home.php';</script>";
     exit();
