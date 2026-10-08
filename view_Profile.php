@@ -3,15 +3,15 @@ session_start();
 require_once 'includes/db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: index.php");
-    exit();
+header("Location: index.php");
+exit();
 }
 
 $target_user_id = $_GET['id'] ?? null;
 
 if (!$target_user_id) {
-    echo "<script>alert('ไม่พบผู้ใช้งาน!'); window.location.href='home.php';</script>";
-    exit();
+echo "<script>alert('ไม่พบผู้ใช้งาน!'); window.location.href='home.php';</script>";
+exit();
 }
 
 // ดึงข้อมูลเจ้าของโปรไฟล์
@@ -24,7 +24,7 @@ if (!$target_user) {
     exit();
 }
 
-// ⭐️️ ดึงรีวิวทั้งหมด (แก้ไขให้ JOIN กับ reviewer_id และหาข้อมูลเป้าหมายจาก target_user_id)
+//  ดึงรีวิวทั้งหมด (แก้ไขให้ JOIN กับ reviewer_id และหาข้อมูลเป้าหมายจาก target_user_id)
 $review_stmt = $conn->prepare("
     SELECT reviews.*, users.name as reviewer_name, users.profile_pic as reviewer_pic 
     FROM reviews 
@@ -53,11 +53,11 @@ if (count($reviews) > 0) {
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        .rating-stars {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-            gap: 10px;
+ .rating-stars {
+display: flex;
+flex-direction: row-reverse;
+justify-content: center;
+gap: 10px;
         }
         .rating-stars input { display: none; }
         .rating-stars label {
@@ -83,13 +83,13 @@ if (count($reviews) > 0) {
 </head>
 <body style="background-color: #FCF2FB !important; font-family: 'Prompt', sans-serif;">
 
-    <!-- เมนูด้านบน -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #d8a0e4;">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="home.php">MateTiww</a>
-            <div class="d-flex">
-                <a href="home.php" class="btn btn-outline-light btn-sm rounded-pill px-3">กลับหน้าฟีด</a>
-            </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #d8a0e4;">
+<div class="container">
+<a class="navbar-brand fw-bold" href="home.php">MateTiww</a>
+<div class="d-flex">
+<a href="home.php" class="btn btn-outline-light btn-sm rounded-pill px-3">กลับหน้าฟีด</a>
+         </div>
         </div>
     </nav>
 
@@ -103,14 +103,14 @@ if (count($reviews) > 0) {
                     <h4 class="fw-bold" style="color: #6B3B80;"><?php echo htmlspecialchars($target_user['name']); ?></h4>
                     <p class="text-muted mb-2"><?php echo htmlspecialchars($target_user['email']); ?></p>
                     
-                    <!-- แสดงคะแนนเฉลี่ยดาว -->
+                    <!-- แสดงดาว -->
                     <div class="mt-2">
                         <span class="fs-5 fw-bold" style="color: #ef69ac;">★ <?php echo $avg_rating; ?></span>
                         <span class="text-muted small">(จาก <?php echo count($reviews); ?> รีวิว)</span>
                     </div>
                 </div>
 
-                <!-- ฟอร์มเขียนรีวิว (ซ่อนไว้ถ้าเป็นโปรไฟล์ตัวเอง) -->
+                <!-- ฟอร์มรีวิวซ่อนไว้ถ้าเป็นโปรไฟล์ตัวเอง) -->
                 <?php if ($_SESSION['user_id'] != $target_user_id): ?>
                 <div class="glass-form p-4 mb-4">
                     <h5 class="fw-bold text-center mb-3" style="color: #a66cd0;">เขียนรีวิวให้เพื่อนคนนี้</h5>
@@ -136,15 +136,14 @@ if (count($reviews) > 0) {
                 <?php endif; ?>
 
                 <!-- รายการรีวิวทั้งหมด -->
-                <h5 class="fw-bold mb-3" style="color: #6B3B80;">รีวิวจากเพื่อนๆ (<?php echo count($reviews); ?>)</h5>
-                
-                <?php if (count($reviews) > 0): ?>
-                    <?php foreach ($reviews as $rev): ?>
-                        <div class="review-card shadow-sm">
-                            <div class="d-flex align-items-center mb-2">
-                                <img src="<?php echo htmlspecialchars($rev['reviewer_pic'] ?? 'pic/pro1.jpg'); ?>" class="rounded-circle me-2" width="35" height="35" style="object-fit: cover;">
-                                <div>
-                                    <h6 class="fw-bold mb-0" style="color: #6B3B80; font-size: 0.95rem;"><?php echo htmlspecialchars($rev['reviewer_name'] ?? 'ผู้ใช้งาน'); ?></h6>
+<h5 class="fw-bold mb-3" style="color: #6B3B80;">รีวิวจากเพื่อนๆ (<?php echo count($reviews); ?>)</h5>     
+<?php if (count($reviews) > 0): ?>
+<?php foreach ($reviews as $rev): ?>
+ <div class="review-card shadow-sm">
+ <div class="d-flex align-items-center mb-2">
+  <img src="<?php echo htmlspecialchars($rev['reviewer_pic'] ?? 'pic/pro1.jpg'); ?>" class="rounded-circle me-2" width="35" height="35" style="object-fit: cover;">
+ <div>
+    <h6 class="fw-bold mb-0" style="color: #6B3B80; font-size: 0.95rem;"><?php echo htmlspecialchars($rev['reviewer_name'] ?? 'ผู้ใช้งาน'); ?></h6>
                                     <small class="text-muted" style="font-size: 0.75rem;"><?php echo $rev['created_at']; ?></small>
                                 </div>
                                 <div class="ms-auto text-warning fw-bold">

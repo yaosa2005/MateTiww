@@ -37,7 +37,7 @@ body.login-page {
     z-index: 1; 
 }
 
-/* ดึงรูปหนังสือเวทมนตร์มาเป็นพื้นหลัง (สำหรับคอมพิวเตอร์) */
+/* ดึงรูปหนังสือเวทมนตร์มาเป็นพื้นหลัง (คอม) */
 body.login-page::before {
     content: "";
     position: fixed;
@@ -54,7 +54,7 @@ body.login-page::before {
     pointer-events: none;
 }
 
-/* ปรับแต่งรูปหนังสือและพื้นหลังเฉพาะหน้าจอโทรศัพท์มือถือ */
+/* มือถือ */
 @media (max-width: 768px) {
     body.login-page::before {
         background-size: 95%; /* ขยายรูปหนังสือให้พอดีกับจอแคบๆ ของมือถือ */
