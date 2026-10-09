@@ -41,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
 <label class="form-label text-white-50 small">อีเมลมหาวิทยาลัย</label>
 <input type="email" class="form-control" name="email" placeholder="กรอกอีเมลของคุณ" required>
      </div>
-<!-- ⭐️ เพิ่มช่องกรอกรหัสผ่าน -->
+<!-- เพิ่มช่องกรอกรหัสผ่าน -->
 <div class="mb-3 text-start">
 <label class="form-label text-white-50 small">รหัสผ่าน</label>
 <input type="password" class="form-control" name="password" placeholder="กรอกรหัสผ่านของคุณ" required>
@@ -50,7 +50,7 @@ if (isset($_SESSION['user_id'])) {
     </form>
     </div>
 
-    <!-- แท็บสมัครสมาชิก (เพิ่มช่องตั้งรหัสผ่านสำหรับผู้ใช้ใหม่ด้วย) -->
+    <!-- แท็บสมัครสมาชิก เพิ่มช่องตั้งรหัสผ่านสำหรับผู้ใช้ใหม่ด้วย-->
 <div class="tab-pane fade" id="pills-register" role="tabpanel">
 <form action="register_action.php" method="POST">
 <div class="mb-2 text-start">
@@ -61,7 +61,7 @@ if (isset($_SESSION['user_id'])) {
 <label class="form-label text-white-50 small">อีเมลมหาวิทยาลัย</label>
 <input type="email" class="form-control" name="email" placeholder="กรอกอีเมลเพื่อสมัคร" required>
     </div>
-    <!-- ⭐️ เพิ่มช่องตั้งรหัสผ่านตอนสมัคร -->
+    <!-- เพิ่มช่องตั้งรหัสผ่านตอนสมัคร -->
 <div class="mb-3 text-start">
 <label class="form-label text-white-50 small">รหัสผ่าน</label>
 <input type="password" class="form-control" name="password" placeholder="ตั้งรหัสผ่าน" required>

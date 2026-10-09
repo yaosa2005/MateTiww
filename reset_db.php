@@ -2,13 +2,13 @@
 require_once 'includes/db_connect.php';
 
 try {
-    // ลบตารางเก่าทิ้งทั้งหมดเพื่อเริ่มใหม่
+    
     $conn->exec("DROP TABLE IF EXISTS reviews");
     $conn->exec("DROP TABLE IF EXISTS comments");
     $conn->exec("DROP TABLE IF EXISTS posts");
     $conn->exec("DROP TABLE IF EXISTS users");
 
-    // 1. สร้างตาราง users (มีคอลัมน์ role และ password)
+    //  สร้างตาราง
     $conn->exec("CREATE TABLE users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
@@ -25,7 +25,7 @@ try {
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES ('Admin', 'admin@matetiww.com', :password, 'admin')");
     $stmt->execute([':password' => $admin_password]);
 
-    // 2. สร้างตาราง posts
+    //  สร้างตาราง posts
     $conn->exec("CREATE TABLE posts (
         post_id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
@@ -37,7 +37,7 @@ try {
         FOREIGN KEY (user_id) REFERENCES users(user_id)
     )");
 
-    // 3. สร้างตาราง comments
+    //  สร้างตาราง comments
     $conn->exec("CREATE TABLE comments (
         comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
         post_id INTEGER NOT NULL,
@@ -48,7 +48,7 @@ try {
         FOREIGN KEY (user_id) REFERENCES users(user_id)
     )");
 
-    // 4. สร้างตาราง reviews
+    //  สร้างตาราง reviews
     $conn->exec("CREATE TABLE reviews (
         review_id INTEGER PRIMARY KEY AUTOINCREMENT,
         target_user_id INTEGER NOT NULL,

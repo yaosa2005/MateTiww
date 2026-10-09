@@ -15,10 +15,10 @@ $stmt = $conn->prepare("SELECT name, email, profile_pic FROM users WHERE user_id
 $stmt->execute([':user_id' => $user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// โค้ดป้องกัน Error
+// ป้องกันเออร์ บชหาย
 if (!$user) {
     session_destroy(); 
-    echo "<script>alert('เซสชันหมดอายุหรือบัญชีถูกรีเซ็ต กรุณาสมัครสมาชิกใหม่ครับ!'); window.location.href='index.php';</script>";
+    echo "<script>alert('เซสชันหมดอายุหรือบัญชีถูกรีเซ็ต กรุณาสมัครสมาชิกใหม่'); window.location.href='index.php';</script>";
     exit();
 }
 

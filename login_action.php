@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([':email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // ตรวจสอบความถูกต้องของอีเมลและรหัสผ่านที่แฮชไว้
+    // ตรวจสอบความถูกต้องของอีเมลและรหัสผ่าน
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['role'] = $user['role']; 

@@ -2,7 +2,7 @@
 session_start();
 require_once 'includes/db_connect.php';
 
-// เช็กการล็อกอิน
+// เช็ก
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();

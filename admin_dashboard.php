@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 $stmt_users = $conn->query("SELECT * FROM users ORDER BY user_id DESC");
 $all_users = $stmt_users->fetchAll(PDO::FETCH_ASSOC);
 
-// 3. ดึงข้อมูลประกาศทั้งหมด
+// ดึงข้อมูลประกาศทั้งหมด
 $stmt_posts = $conn->query("SELECT * FROM posts ORDER BY created_at DESC");
 $all_posts = $stmt_posts->fetchAll(PDO::FETCH_ASSOC);
 ?>

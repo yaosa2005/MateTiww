@@ -17,9 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
 
-    // บันทึกข้อมูลลงตาราง posts (ปรับให้ตรงกับโครงสร้างเดิมของคุณ)
+    // บันทึกข้อมูลลงตาราง posts
     try {
-        // แก้ตรงนี้: เปลี่ยนเป็น datetime('now', 'localtime')
+        // เปลี่ยนเป็น datetime('now', 'localtime')
         $stmt = $conn->prepare("INSERT INTO posts (user_id, category, title, content, created_at) VALUES (:user_id, :category, :title, :content, datetime('now', 'localtime'))");
         $stmt->execute([
             ':user_id' => $user_id,
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ':content' => $content
         ]);
     } catch (PDOException $e) {
-        // แก้ตรงนี้ด้วย: เปลี่ยนเป็น datetime('now', 'localtime')
+        // datetime('now', 'localtime')
         $stmt = $conn->prepare("INSERT INTO posts (user_id, category, title, detail, created_at) VALUES (:user_id, :category, :title, :content, datetime('now', 'localtime'))");
         $stmt->execute([
             ':user_id' => $user_id,
