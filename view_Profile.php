@@ -59,8 +59,8 @@ flex-direction: row-reverse;
 justify-content: center;
 gap: 10px;
         }
-        .rating-stars input { display: none; }
-        .rating-stars label {
+.rating-stars input { display: none; }
+.rating-stars label {
             font-size: 30px;
             color: #ccc;
             cursor: pointer;
