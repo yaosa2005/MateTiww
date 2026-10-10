@@ -23,7 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':content' => $content
             ]);
         } catch(PDOException $e) {
-            // โค้ดสำหรับจัดการ Error กรณีบันทึกไม่สำเร็จ
+            // แสดง Error กรณีบันทึกไม่สำเร็จ
+            echo "Error: " . $e->getMessage();
         }
     }
     
