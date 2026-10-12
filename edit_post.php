@@ -14,7 +14,6 @@ if (!$post_id) {
     exit();
 }
 
-// ดึงข้อมูลโพสต์เดิมขึ้นมาแสดงในฟอร์ม
 $stmt = $conn->prepare("SELECT * FROM posts WHERE post_id = :post_id AND user_id = :user_id");
 $stmt->execute([':post_id' => $post_id, ':user_id' => $_SESSION['user_id']]);
 $post = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -24,7 +23,6 @@ if (!$post) {
     exit();
 }
 
-// ถ้ามีการกดปุ่มบันทึกการแก้ไข (Form Submit)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category = $_POST['category'];
     $title = trim($_POST['title']);

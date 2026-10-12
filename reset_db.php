@@ -8,7 +8,6 @@ try {
     $conn->exec("DROP TABLE IF EXISTS posts");
     $conn->exec("DROP TABLE IF EXISTS users");
 
-    //  สร้างตาราง
     $conn->exec("CREATE TABLE users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,

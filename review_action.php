@@ -2,13 +2,11 @@
 session_start();
 require_once 'includes/db_connect.php';
 
-// ตรวจสอบว่าล็อกอินแล้วหรือยัง
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
 }
 
-// ตรวจสอบว่ามีการส่งข้อมูลแบบ POST มาหรือไม่
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reviewer_id = $_SESSION['user_id'];
     $target_user_id = $_POST['target_user_id'] ?? null;
