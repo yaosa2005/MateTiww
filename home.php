@@ -17,7 +17,7 @@ $user_data = $user_stmt->fetch(PDO::FETCH_ASSOC);
 $user_name = $user_data ? $user_data['name'] : 'ผู้ใช้งาน';
 $current_role = $user_data ? $user_data['role'] : 'user';
 
-// ---แสดงเฉพาะโพสต์ภายใน 24 ชม. ล่าสุด---
+// ---แสดงเฉพาะโพสต์ภายใน 24 ชม---
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 
 if ($category_filter == 'study' || $category_filter == 'roommate' || $category_filter == 'other' || $category_filter == 'admin_news') {
@@ -91,7 +91,7 @@ $posts =$stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container mt-4 pt-5">
         <div class="row justify-content-center">
             
-            <!-- ฟอร์มสร้างประกาศใหม่ (แยกตามสิทธิ์) -->
+            <!-- สร้างประกาศใหม่-->
             <div class="col-md-8 mb-4">
                 <div class="card glass-form p-4">
                     <div class="card-body">

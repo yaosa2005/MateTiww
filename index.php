@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
         </ul>
 
  <div class="tab-content" id="pills-tabContent">
- <!-- แท็บเข้าสู่ระบบ (เพิ่มช่องรหัสผ่าน) -->
+ <!-- แท็บเข้าสู่ระบบ  -->
 <div class="tab-pane fade show active" id="pills-login" role="tabpanel">
 <form action="login_action.php" method="POST">
 <div class="mb-3 text-start">

@@ -21,7 +21,7 @@ if (isset($_GET['post_id'])) {
     $post_id = $_GET['post_id'];
 
     if ($role === 'admin') {
-        // ถ้าเป็นแอดมิน: สิทธิ์ขาดลบได้ทุกโพสต์ทันที
+        // แอดมินลบได้ทุกโพสต์ทันที
         $del_post = $conn->prepare("DELETE FROM posts WHERE post_id = :post_id");
         $del_post->execute([':post_id' => $post_id]);
     } else {

@@ -10,16 +10,15 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['user_id'];
     $category = trim($_POST['category']);
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
 
-    // บันทึกข้อมูลลงตาราง posts
+    // บันทึกข้อมูลposts
     try {
-        // เปลี่ยนเป็น datetime('now', 'localtime')
+        // เปลี่ยนเป็น datetime
         $stmt = $conn->prepare("INSERT INTO posts (user_id, category, title, content, created_at) VALUES (:user_id, :category, :title, :content, datetime('now', 'localtime'))");
         $stmt->execute([
             ':user_id' => $user_id,
