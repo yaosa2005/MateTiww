@@ -41,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
 <label class="form-label text-white-50 small">อีเมลมหาวิทยาลัย</label>
 <input type="email" class="form-control" name="email" placeholder="กรอกอีเมลของคุณ" required>
      </div>
-<!-- เพิ่มช่องกรอกรหัสผ่าน -->
+     
 <div class="mb-3 text-start">
 <label class="form-label text-white-50 small">รหัสผ่าน</label>
 <input type="password" class="form-control" name="password" placeholder="กรอกรหัสผ่านของคุณ" required>
